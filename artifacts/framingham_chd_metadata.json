@@ -1,0 +1,72 @@
+{
+    "model_name": "Framingham CHD Risk Model",
+    "model_type": "LogisticRegression",
+    "target": "TenYearCHD",
+    "final_model_choice": "uncalibrated logistic regression",
+    "threshold": 0.5,
+    "hyperparameters": {
+        "C": 0.1,
+        "max_iter": 3000,
+        "class_weight": "balanced",
+        "random_state": 42
+    },
+    "training_data": {
+        "development_rows": 3816,
+        "holdout_rows": 424,
+        "feature_count_raw": 15
+    },
+    "preprocessing": {
+        "implemented_inside_pipeline": true,
+        "missing_indicator_columns": [
+            "glucose",
+            "education",
+            "BPMeds"
+        ],
+        "clipped_columns": [
+            "glucose",
+            "totChol",
+            "sysBP"
+        ],
+        "clip_quantiles": {
+            "lower": 0.01,
+            "upper": 0.99
+        },
+        "continuous_features": [
+            "age",
+            "glucose",
+            "totChol",
+            "cigsPerDay",
+            "BMI",
+            "heartRate",
+            "sysBP",
+            "diaBP"
+        ],
+        "binary_or_categorical_features": [
+            "education",
+            "BPMeds"
+        ],
+        "passthrough_features": [
+            "male",
+            "currentSmoker",
+            "prevalentStroke",
+            "prevalentHyp",
+            "diabetes"
+        ]
+    },
+    "model_selection": {
+        "selected_via": "repeated stratified cross-validation on development set",
+        "chosen_over": [
+            "Random Forest",
+            "Stacking Ensemble"
+        ],
+        "calibration_decision": "uncalibrated model retained because calibrated model improved probability quality but reduced positive-class recall too strongly for the intended screening-oriented use case"
+    },
+    "holdout_metrics": {
+        "roc_auc": 0.7164496527777778,
+        "pr_auc": 0.31100949618325274,
+        "brier_score": 0.21412537432185583,
+        "precision_at_0_5": 0.2469879518072289,
+        "recall_at_0_5": 0.640625,
+        "positive_class_prevalence": 0.1509433962264151
+    }
+}

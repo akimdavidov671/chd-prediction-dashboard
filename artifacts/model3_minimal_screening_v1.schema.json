@@ -1,0 +1,93 @@
+{
+    "schema_version": "1.0.0",
+    "description": "Input schema for Model 3, the minimal-input current heart disease screening-support model.",
+    "features": {
+        "age": {
+            "type": "number",
+            "required": true,
+            "minimum": 18,
+            "maximum": 100,
+            "unit": "years",
+            "description": "Age in years."
+        },
+        "trestbps": {
+            "type": "number",
+            "required": true,
+            "minimum": 70,
+            "maximum": 250,
+            "unit": "mm Hg",
+            "description": "Resting blood pressure."
+        },
+        "thalach": {
+            "type": "number",
+            "required": true,
+            "minimum": 60,
+            "maximum": 230,
+            "description": "Maximum heart rate achieved."
+        },
+        "sex": {
+            "type": "integer",
+            "required": true,
+            "allowed_values": [
+                0,
+                1
+            ],
+            "value_mapping": {
+                "0": "female",
+                "1": "male"
+            },
+            "description": "Biological sex as encoded in the UCI dataset."
+        },
+        "cp": {
+            "type": "integer",
+            "required": true,
+            "allowed_values": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "value_mapping": {
+                "1": "typical angina",
+                "2": "atypical angina",
+                "3": "non-anginal pain",
+                "4": "asymptomatic"
+            },
+            "description": "Chest pain type."
+        },
+        "exang": {
+            "type": "integer",
+            "required": true,
+            "allowed_values": [
+                0,
+                1
+            ],
+            "value_mapping": {
+                "0": "no exercise-induced angina",
+                "1": "exercise-induced angina"
+            },
+            "description": "Exercise-induced angina."
+        }
+    },
+    "target": {
+        "name": "num",
+        "definition": "target = 1 if num > 0 else 0",
+        "positive_class": 1
+    },
+    "notes": [
+        "This model uses the smallest input feature set among the three models.",
+        "It is intended as the primary candidate for a lightweight screening API.",
+        "Its selected threshold prioritizes sensitivity for screening support.",
+        "This model predicts current heart disease pattern, not 10-year CHD risk."
+    ],
+    "model_id": "model3_minimal_screening_v1",
+    "model_display_name": "Model 3 - Minimal Input Screening Logistic Regression",
+    "feature_order": [
+        "age",
+        "sex",
+        "cp",
+        "exang",
+        "trestbps",
+        "thalach"
+    ]
+}
