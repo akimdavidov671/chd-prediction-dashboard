@@ -103,11 +103,11 @@ This model showed that much of the predictive signal can be preserved without th
 
 **Model 3 — Minimal Screening Model** uses a small feature set designed for broader availability and lightweight screening. Its features are less rich than Model 1 or Model 2, but they are more realistic for limited-input settings. Cross-dataset holdout evaluation between Cleveland and Hungarian showed stable discrimination, with mean ROC-AUC around **0.85** and mean balanced accuracy around **0.77**. External testing remained useful on Switzerland and VA, though performance dropped under stronger cohort shift.
 
-<img src="plots/uci_plots/model3_internal_baseline_performance.png" width="500">
+<img src="plots/uci_plots/model3_internal_baseline_performance.png" width="600">
 
 Because Model 3 is intended for screening, threshold tuning prioritized sensitivity over specificity. A threshold of approximately **0.37** was selected from out-of-fold training predictions to target sensitivity of at least **0.85**. This made the model more conservative: it captured more positive cases, but at the cost of additional false positives, especially on the VA cohort.
 
-<img src="plots/uci_plots/model3_threshold_trade-off_on_oof.png" width="600">
+<img src="plots/uci_plots/model3_threshold_trade-off_on_oof.png" width="700">
 
 Overall, the model development process supports the tiered strategy. Model 1 offers the strongest performance when complete clinical data is available, Model 2 provides a strong reduced-feature fallback, and Model 3 provides the most portable screening option when only limited inputs are available.
 
