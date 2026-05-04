@@ -71,14 +71,15 @@ The notebook evaluates several model families to test whether more complex model
 
 Logistic regression provided the strongest practical baseline. Its ROC-AUC and PR-AUC were competitive, and threshold analysis showed that the model could be tuned toward higher recall when used as a screening-oriented model.
 
-<img src="plots/framingham_plots/experimentation_logistic_regression_pr.png" width="500">
+<img src="plots/framingham_plots/experimentation_logistic_regression_pr.png" width="400">
 
 Tree-based and boosting models were tested to capture nonlinearities and feature interactions, but they did not improve discrimination, precision-recall behavior, or calibration. This suggested that the available signal was largely captured by the simpler linear model, while more flexible models mostly added variance or noise.
 
-<img src="plots/framingham_plots/experimentation_xgb_pr.png" width="500">
+<img src="plots/framingham_plots/experimentation_xgb_pr.png" width="400">
 
 Ensemble methods, including soft voting, weighted voting, and stacking, were also explored. Stacking produced the strongest ranking metrics in this experimental phase, but the improvement over logistic regression was very small and did not justify the extra complexity for deployment.
 
+<img src="plots/framingham_plots/experimentation_stacking_pr.png" width="400">
 
 #### Cross-Validation and Model Selection
 
