@@ -13,17 +13,17 @@ The modeling work is developed in Jupyter notebooks, exported as reusable machin
 
 This project uses two public clinical datasets:
 
-- **Framingham Cohort Study** — used for 10-year coronary heart disease risk prediction.  
+- **Framingham Cohort Study** - used for 10-year coronary heart disease risk prediction.  
   Data source: https://biolincc.nhlbi.nih.gov/studies/framcohort/
 
-- **UCI Heart Disease Dataset** — used for current heart disease screening and classification.  
+- **UCI Heart Disease Dataset** - used for current heart disease screening and classification.  
   Data source: https://archive.ics.uci.edu/dataset/45/heart+disease
 
 The datasets are not redistributed in this repository. To reproduce the notebook workflows, download the datasets from the original sources and place them in the expected local data directory.
 
 ## Notebook Workflows
 
-### Framingham Notebook — 10-Year CHD Risk Prediction
+### Framingham Notebook - 10-Year CHD Risk Prediction
 
 The `framingham.ipynb` notebook develops the long-term risk prediction component of the project. It uses the Framingham dataset to estimate whether a patient is likely to develop coronary heart disease within the next 10 years.
 
@@ -55,10 +55,9 @@ Risk stratification analysis showed that observed CHD event rates generally incr
 
 For the full analysis, including detailed EDA plots, calibration curves, threshold analysis, and decision curve analysis, see `notebooks/framingham.ipynb`.
 
-### UCI Notebook — Current Heart Disease Screening
-### UCI Notebook — Current Heart Disease Screening
+### UCI Notebook - Current Heart Disease Screening
 
-The `uci-heart-disease.ipynb` notebook develops the current heart disease screening component of the project. It uses four UCI cohorts — Cleveland, Hungarian, Switzerland, and VA — and converts the original disease-severity target into a binary heart-disease-present label.
+The `uci-heart-disease.ipynb` notebook develops the current heart disease screening component of the project. It uses four UCI cohorts - Cleveland, Hungarian, Switzerland, and VA - and converts the original disease-severity target into a binary heart-disease-present label.
 
 The main challenge is that these cohorts are not directly interchangeable. They differ substantially in target distribution, feature availability, missingness, and feature distributions. Cleveland is relatively complete and balanced, while Switzerland and VA are much more disease-positive and have substantial missingness in important clinical variables. In particular, features such as `ca`, `thal`, and `slope` are informative but largely unavailable outside Cleveland.
 
@@ -68,13 +67,13 @@ Because of this, the notebook uses a **tiered modeling strategy** rather than a 
 
 | Model | Feature set | Role |
 |---|---|---|
-| **Model 1 — Full Clinical Model** | 13-feature Cleveland-style clinical feature set | Highest-information model when complete diagnostic inputs are available |
-| **Model 2 — Reduced Clinical Model** | Reduced feature set excluding poorly available advanced fields such as `ca`, `thal`, and `slope` | Fallback model when full clinical inputs are unavailable |
-| **Model 3 — Minimal Screening Model** | Small common feature set using broadly available variables | Lightweight screening model for limited-input scenarios |
+| **Model 1 - Full Clinical Model** | 13-feature Cleveland-style clinical feature set | Highest-information model when complete diagnostic inputs are available |
+| **Model 2 - Reduced Clinical Model** | Reduced feature set excluding poorly available advanced fields such as `ca`, `thal`, and `slope` | Fallback model when full clinical inputs are unavailable |
+| **Model 3 - Minimal Screening Model** | Small common feature set using broadly available variables | Lightweight screening model for limited-input scenarios |
 
 Model 1 achieved the strongest within-Cleveland performance, with ROC-AUC around **0.96** and PR-AUC around **0.94**, confirming that the full clinical feature set contains strong predictive signal. However, its required inputs are often missing in external cohorts, making it unsuitable as a universal model.
 
-Model 2 was developed as a reduced-feature fallback. The notebook compared **Model 2A**, a Cleveland-trained reduced model with external validation, against **Model 2B**, a pooled multi-cohort reduced model evaluated with GroupKFold. Model 2A was selected because the pooled version did not provide a clear generalization advantage. This reduced model also performed better than forcing incomplete records through Model 1 with imputed advanced fields, especially in balanced accuracy, F1 score, and Brier score.
+We developed Model 2 as a reduced-feature fallback. The notebook compared **Model 2A**, a Cleveland-trained reduced model with external validation, against **Model 2B**, a pooled multi-cohort reduced model evaluated with GroupKFold. Model 2A was selected because the pooled version did not provide a clear generalization advantage. This reduced model also performed better than forcing incomplete records through Model 1 with imputed advanced fields, especially in balanced accuracy, F1 score, and Brier score.
 
 Model 3 was designed as the most portable screening model. It uses a minimal feature set, sacrifices some specificity, and tunes the decision threshold toward sensitivity. Cross-dataset evaluation showed that it preserved useful discrimination under dataset shift, with ROC-AUC around **0.85** between Cleveland and Hungarian and useful but weaker external performance on Switzerland and VA.
 
