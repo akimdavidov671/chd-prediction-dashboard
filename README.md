@@ -26,6 +26,12 @@ The datasets are not redistributed in this repository. To reproduce the notebook
 
 1. **Download the project files**
 
+   If you have Git installed, clone the repository:
+
+   ```bash
+   git clone https://github.com/akimdavidov671/chd-prediction-dashboard.git
+   cd chd-prediction-dashboard
+   
 2. **Place the model artifacts**
 
    Put artifacts in both `uci_api` and `framingham_api`.
