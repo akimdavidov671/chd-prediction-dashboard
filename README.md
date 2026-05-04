@@ -32,20 +32,8 @@ The datasets are not redistributed in this repository. To reproduce the notebook
    git clone https://github.com/akimdavidov671/chd-prediction-dashboard.git
    cd chd-prediction-dashboard
    
-2. **Place the model artifacts**
 
-   Put artifacts in both `uci_api` and `framingham_api`.
-
-   Expected structure:
-
-   ```text
-   framingham_api/
-     artifacts/
-
-   uci_api/
-     artifacts/
-   ```
-3. **Install backend dependencies**
+2. **Install backend dependencies**
 
    From the project root, run:
 
@@ -53,7 +41,7 @@ The datasets are not redistributed in this repository. To reproduce the notebook
    pip install -r requirements.txt
    ```
 
-4. **Start the FastAPI backend**
+3. **Start the FastAPI backend**
 
    From the project root, run:
 
@@ -73,7 +61,7 @@ The datasets are not redistributed in this repository. To reproduce the notebook
    http://localhost:8000/docs
    ```
 
-5. **Install frontend dependencies**
+4. **Install frontend dependencies**
 
    Open a second terminal and run:
 
@@ -82,7 +70,7 @@ The datasets are not redistributed in this repository. To reproduce the notebook
    npm install
    ```
 
-6. **Start the frontend**
+5. **Start the frontend**
 
    Still inside the `frontend` folder, run:
 
@@ -96,7 +84,7 @@ The datasets are not redistributed in this repository. To reproduce the notebook
    http://localhost:5173
    ```
 
-7. **Use the app**
+6. **Use the app**
 
    Keep both terminals running:
 
