@@ -120,7 +120,7 @@ The notebook first compares two fallback options: using Model 1 with imputed mis
 
 The same pattern appears when considering data availability. On external cohorts, Model 1 has almost no complete-case coverage, while Model 2 and Model 3 can score a much larger share of patients. Model 3 provides the broadest coverage, reaching approximately 98% complete-case availability on Switzerland and 72% on VA, compared with near-zero availability for Model 1.
 
-<img src="plots/uci_plots/model3_data_burden.png" width="800">
+<img src="plots/uci_plots/model3_data_burden.png" width="700">
 
 Model 3 also remains competitive under external missingness. Its ROC-AUC is comparable to or better than the larger models on Switzerland and VA, while its threshold tuning gives substantially higher sensitivity. This comes at the expected cost of lower specificity, especially on VA, but the trade-off is consistent with its role as a screening-oriented fallback.
 
@@ -128,6 +128,16 @@ Model 3 also remains competitive under external missingness. Its ROC-AUC is comp
 
 The final practical strategy is therefore adaptive: use **Model 1** when full diagnostic inputs are available, use **Model 2A** when richer clinical variables are partially missing, and use **Model 3** when only a minimal input set is available. This prioritizes usable, robust prediction over forcing every patient record into a single high-feature model.
 
-
-
 #### Model Behaviour and Limitations
+
+Model interpretation showed that the UCI models rely on clinically plausible signals rather than arbitrary patterns. The full clinical model is driven mainly by diagnostic and stress-test-related variables such as `cp`, `thal`, `ca`, `slope`, `oldpeak`, and `exang`, which explains why it performs strongly when complete Cleveland-style inputs are available.
+
+The reduced models behave differently because they are intentionally designed for lower-information settings. Model 2 shifts away from specialized fields such as `ca` and `thal` and relies more heavily on accessible variables such as chest pain type, sex, exercise-induced angina, cholesterol, resting blood pressure, and age. This supports its role as a dedicated reduced-feature fallback rather than an imputed version of the full model.
+
+For the minimal screening model, most predictive signal comes from symptom-related variables. Chest pain type is the dominant feature group, followed by exercise-induced angina and sex. The numerical features show clinically sensible monotonic patterns: predicted risk increases with age and resting blood pressure, while higher maximum heart rate is associated with lower predicted risk.
+
+<img src="plots/uci_plots/model3_global_feature_importance.png" width="650">
+
+These findings make the model behaviour interpretable, but they do not remove the main limitations. The UCI cohorts differ substantially in prevalence, feature availability, and feature distributions, so external performance drops under stronger dataset shift, especially on the VA cohort. Model 3’s sensitivity-focused threshold also increases false positives, which is appropriate for screening but not for diagnosis.
+
+Overall, the UCI models should be interpreted as screening and triage-support tools. Their outputs reflect learned associations in heterogeneous historical datasets and should not be treated as clinical diagnoses or calibrated medical probabilities without further validation.
