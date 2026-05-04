@@ -71,6 +71,19 @@ This creates a trade-off between predictive strength and practical coverage. Som
 
 
 #### Tiered Modeling Strategy
+
+The EDA showed that the UCI cohorts differ substantially in feature availability, missingness, and target distribution. Because of this, the notebook does not rely on a single model trained on one fixed feature set. Instead, it develops a **tiered modeling strategy** in which each model is designed for a different level of available clinical information.
+
+| Model | Feature set | Role |
+|---|---|---|
+| **Model 1 — Full Clinical Model** | Full 13-feature Cleveland feature set | Highest-performance model when complete clinical inputs are available |
+| **Model 2 — Reduced Clinical Model** | Reduced feature set excluding poorly available advanced fields such as `ca`, `thal`, and `slope` | Fallback model when full clinical inputs are unavailable |
+| **Model 3 — Minimal Screening Model** | Small common feature set using basic and more consistently available variables | Lightweight screening model for limited-input scenarios |
+
+This design reflects a practical trade-off between **predictive richness** and **input availability**. The full clinical model can use the most informative feature set, but it is only usable when those fields are present. The reduced and minimal models sacrifice some detail in exchange for broader coverage and better robustness across heterogeneous datasets.
+
+The final inference strategy is therefore adaptive: use the richest model supported by the available patient inputs, and fall back to simpler models when advanced clinical variables are missing. This avoids forcing incomplete records through a full model with heavy imputation and makes the system more realistic for variable data-collection settings.
+
 #### Model Development and Selection
 #### Fallback Strategy and Practical Use
 #### Model Behaviour and Limitations
