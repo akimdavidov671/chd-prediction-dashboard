@@ -82,8 +82,35 @@ The EDA showed that the UCI cohorts differ substantially in feature availability
 
 This design reflects a practical trade-off between **predictive richness** and **input availability**. The full clinical model can use the most informative feature set, but it is only usable when those fields are present. The reduced and minimal models sacrifice some detail in exchange for broader coverage and better robustness across heterogeneous datasets.
 
-The final inference strategy is therefore adaptive: use the richest model supported by the available patient inputs, and fall back to simpler models when advanced clinical variables are missing. This avoids forcing incomplete records through a full model with heavy imputation and makes the system more realistic for variable data-collection settings.
 
 #### Model Development and Selection
+
+The notebook develops and evaluates each tier of the UCI screening strategy separately, because each model is intended for a different data-availability scenario.
+
+**Model 1 — Full Clinical Model** uses the complete 13-feature Cleveland dataset and serves as the highest-information model. A Logistic Regression model performed very strongly on the Cleveland holdout set, with ROC-AUC around **0.96**, PR-AUC around **0.94**, balanced accuracy around **0.90**, and balanced sensitivity/specificity. This confirmed that the full clinical feature set contains strong predictive signal when all required variables are available.
+
+<img src="plots/uci_plots/model1_logistic_regression_roc.png" width="700">
+
+However, Model 1 is limited by feature availability. Several of its strongest fields, especially `ca`, `thal`, and `slope`, are largely missing outside the Cleveland cohort. As a result, strong within-Cleveland performance does not automatically translate into practical usability across the other UCI cohorts.
+
+**Model 2 — Reduced Clinical Model** was developed as a fallback when advanced clinical fields are unavailable. It removes poorly available variables while retaining a clinically meaningful reduced feature set. Threshold tuning selected an operating threshold of approximately **0.47**, producing strong Cleveland holdout performance with balanced accuracy around **0.92**, sensitivity around **0.96**, and specificity around **0.88**.
+
+This model showed that much of the predictive signal can be preserved without the full 13-feature set. At the same time, external evaluation still showed performance degradation under stronger dataset shift, especially on the Switzerland and VA cohorts. This reinforced the need for an even more portable screening model.
+
+**Model 3 — Minimal Screening Model** uses a small feature set designed for broader availability and lightweight screening. Its features are less rich than Model 1 or Model 2, but they are more realistic for limited-input settings. Cross-dataset holdout evaluation between Cleveland and Hungarian showed stable discrimination, with mean ROC-AUC around **0.85** and mean balanced accuracy around **0.77**. External testing remained useful on Switzerland and VA, though performance dropped under stronger cohort shift.
+
+Because Model 3 is intended for screening, threshold tuning prioritized sensitivity over specificity. A threshold of approximately **0.37** was selected from out-of-fold training predictions to target sensitivity of at least **0.85**. This made the model more conservative: it captured more positive cases, but at the cost of additional false positives, especially on the VA cohort.
+
+Overall, the model development process supports the tiered strategy. Model 1 offers the strongest performance when complete clinical data is available, Model 2 provides a strong reduced-feature fallback, and Model 3 provides the most portable screening option when only limited inputs are available.
+
+Suggested figures:
+
+- ``
+- `plots/uci_plots/model2_threshold_tuning.png`
+- `plots/uci_plots/model3_internal_baseline_performance.png`
+- `plots/uci_plots/model3_threshold_trade-off_on_oof.png`
+
 #### Fallback Strategy and Practical Use
+
+
 #### Model Behaviour and Limitations
