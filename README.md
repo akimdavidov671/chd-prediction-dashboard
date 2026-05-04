@@ -97,13 +97,13 @@ Because of this, Logistic Regression was selected as the final model. It offered
 
 After selecting Logistic Regression as the final model, the notebook examines how the model behaves beyond aggregate metrics such as ROC-AUC and PR-AUC. This step is important because the model is intended for screening-oriented risk stratification, not just binary classification.
 
-The model’s strongest positive feature effects generally align with clinically plausible cardiovascular risk factors, including **age**, **male sex**, **prior stroke**, **blood-pressure-related variables**, **diabetes**, and **smoking intensity**. This supports the choice of Logistic Regression as an interpretable model: the learned coefficients provide a readable summary of which variables increase or decrease predicted CHD risk within the fitted pipeline.
+The model’s strongest positive feature effects generally align with clinically plausible cardiovascular risk factors, including **age**, **male sex**, **prior stroke**, **blood-pressure-related variables**, **diabetes**, and **smoking intensity**.
 
 <img src="plots/framingham_plots/understanding_top_feature_effects.png" width="700">
 
 At the same time, these effects should be interpreted as model associations rather than causal claims. Coefficient magnitudes are also affected by preprocessing steps such as scaling, imputation, and missingness indicators, so they are most useful for understanding the relative behavior of this specific model.
 
-The notebook also evaluates whether the model separates patients into meaningful risk groups. Risk-decile analysis shows that observed CHD event rates generally increase across higher predicted-risk groups, indicating that the model is useful for **relative risk ranking**. However, the predicted probabilities are systematically higher than the observed event rates, suggesting that the model is better suited for identifying higher-risk patients than for producing precisely calibrated absolute risk estimates.
+We also evaluate whether the model separates patients into meaningful risk groups. Risk-decile analysis shows that observed CHD event rates generally increase across higher predicted-risk groups, indicating that the model is useful for **relative risk ranking**. However, the predicted probabilities are systematically higher than the observed event rates, meaning that the model is better suited for identifying higher-risk patients than for producing precisely calibrated absolute risk estimates.
 
 <img src="plots/framingham_plots/understanding_risk_stratification.png" width="700">
 
