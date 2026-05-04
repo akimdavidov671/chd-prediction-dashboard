@@ -21,6 +21,88 @@ This project uses two public clinical datasets:
 
 The datasets are not redistributed in this repository. To reproduce the notebook workflows, download the datasets from the original sources and place them in the expected local data directory.
 
+
+## How to Run Locally
+
+1. **Download the project files**
+
+2. **Place the model artifacts**
+
+   Put artifacts in both `uci_api` and `framingham_api`.
+
+   Expected structure:
+
+   ```text
+   framingham_api/
+     artifacts/
+
+   uci_api/
+     artifacts/
+   ```
+3. **Install backend dependencies**
+
+   From the project root, run:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Start the FastAPI backend**
+
+   From the project root, run:
+
+   ```bash
+   python -m uvicorn main:app --reload
+   ```
+
+   The backend should be available at:
+
+   ```text
+   http://localhost:8000
+   ```
+
+   API documentation is available at:
+
+   ```text
+   http://localhost:8000/docs
+   ```
+
+5. **Install frontend dependencies**
+
+   Open a second terminal and run:
+
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+6. **Start the frontend**
+
+   Still inside the `frontend` folder, run:
+
+   ```bash
+   npm run dev
+   ```
+
+   The frontend should be available at:
+
+   ```text
+   http://localhost:5173
+   ```
+
+7. **Use the app**
+
+   Keep both terminals running:
+
+   ```text
+   Backend:  http://localhost:8000
+   Frontend: http://localhost:5173
+   ```
+
+   Then open the frontend URL in your browser.
+
+
+
 ## Notebook Workflows
 
 ### Framingham Notebook - 10-Year CHD Risk Prediction
