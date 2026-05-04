@@ -58,6 +58,18 @@ For the full analysis, including detailed EDA plots, calibration curves, thresho
 ### UCI Notebook — Current Heart Disease Screening
 
 #### Dataset Shift and Feature Availability
+
+The UCI heart disease notebook combines four related cohorts: Cleveland, Hungarian, Switzerland, and VA. EDA shows that these cohorts are not directly interchangeable. They differ substantially in size and target distribution: Cleveland is relatively balanced, Hungarian has a lower positive rate, while Switzerland and VA are heavily skewed toward disease-positive cases. This creates a risk that naive dataset merging would learn dataset-specific prevalence patterns rather than stable disease signals.
+
+<img src="plots/uci_plots/eda_target_distribution_across_datasets.png" width="500">
+
+The more important constraint is feature availability. Cleveland is nearly complete, but several clinically informative variables such as `ca`, `thal`, and `slope` are largely missing outside Cleveland. In contrast, a smaller set of features, including `age`, `sex`, and `cp`, is consistently available across cohorts, while variables such as `trestbps`, `thalach`, `exang`, and `oldpeak` are only partially reliable depending on the dataset.
+
+<img src="plots/uci_plots/eda_feature_availability.png" width="700">
+
+This creates a trade-off between predictive strength and practical coverage. Some of the strongest predictors are not consistently available across datasets, while the most portable features contain less information. This finding motivates the notebook’s tiered modeling strategy: a full clinical model when complete inputs are available, reduced models when advanced fields are missing, and a minimal screening model for limited-input scenarios.
+
+
 #### Tiered Modeling Strategy
 #### Model Development and Selection
 #### Fallback Strategy and Practical Use
