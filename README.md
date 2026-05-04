@@ -111,8 +111,22 @@ Because Model 3 is intended for screening, threshold tuning prioritized sensitiv
 
 Overall, the model development process supports the tiered strategy. Model 1 offers the strongest performance when complete clinical data is available, Model 2 provides a strong reduced-feature fallback, and Model 3 provides the most portable screening option when only limited inputs are available.
 
-
+ 
 #### Fallback Strategy and Practical Use
+
+The fallback analysis evaluates what the system should do when complete clinical inputs are not available. This is important because the full Model 1 feature set depends on variables such as `ca`, `thal`, and `slope`, which are largely missing outside the Cleveland cohort.
+
+The notebook first compares two fallback options: using Model 1 with imputed missing advanced fields versus using a dedicated reduced-feature model. Although the imputed full model sometimes retains similar ROC-AUC, its practical decision behavior is much worse. Model 2 achieves substantially higher balanced accuracy and F1 score, with a much lower Brier score, indicating more reliable classification and probability estimates under incomplete-input conditions. This confirms that a dedicated reduced model is a better fallback than forcing missing records through the full model.
+
+The same pattern appears when considering data availability. On external cohorts, Model 1 has almost no complete-case coverage, while Model 2 and Model 3 can score a much larger share of patients. Model 3 provides the broadest coverage, reaching approximately 98% complete-case availability on Switzerland and 72% on VA, compared with near-zero availability for Model 1.
+
+<img src="plots/uci_plots/model3_data_burden.png" width="800">
+
+Model 3 also remains competitive under external missingness. Its ROC-AUC is comparable to or better than the larger models on Switzerland and VA, while its threshold tuning gives substantially higher sensitivity. This comes at the expected cost of lower specificity, especially on VA, but the trade-off is consistent with its role as a screening-oriented fallback.
+
+<img src="plots/uci_plots/model3_external_comparison_fallback_strategy.png" width="800">
+
+The final practical strategy is therefore adaptive: use **Model 1** when full diagnostic inputs are available, use **Model 2A** when richer clinical variables are partially missing, and use **Model 3** when only a minimal input set is available. This prioritizes usable, robust prediction over forcing every patient record into a single high-feature model.
 
 
 
