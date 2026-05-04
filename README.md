@@ -57,7 +57,7 @@ The preprocessing pipeline then applies:
 
 These transformations are implemented with scikit-learn pipelines and a `ColumnTransformer`, so the same preprocessing steps can be reused consistently during model training, validation, and inference.
 
-#### Experimentation
+#### Model Comparison and Selection
 
 The notebook evaluates several model families to test whether more complex models improve prediction beyond a regularized, class-weighted logistic regression baseline.
 
@@ -75,12 +75,26 @@ Logistic regression provided the strongest practical baseline. Its ROC-AUC and P
 
 Tree-based and boosting models were tested to capture nonlinearities and feature interactions, but they did not improve discrimination, precision-recall behavior, or calibration. This suggested that the available signal was largely captured by the simpler linear model, while more flexible models mostly added variance or noise.
 
-<img src="plots/framingham_plots/experimentation_xgb_pr.png" width="400">
-
 Ensemble methods, including soft voting, weighted voting, and stacking, were also explored. Stacking produced the strongest ranking metrics in this experimental phase, but the improvement over logistic regression was very small and did not justify the extra complexity for deployment.
 
-<img src="plots/framingham_plots/experimentation_stacking_pr.png" width="400">
+After the initial experiments, the strongest candidate models were evaluated using repeated stratified cross-validation. This provided a more robust estimate of model performance and reduced dependence on a single validation split.
 
-#### Cross-Validation and Model Selection
+| Model | ROC-AUC mean | ROC-AUC std | PR-AUC mean | PR-AUC std |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 0.7221 | 0.0270 | 0.3426 | 0.0481 |
+| Stacking Ensemble | 0.7215 | 0.0262 | 0.3425 | 0.0460 |
+| Random Forest | 0.7079 | 0.0238 | 0.3288 | 0.0419 |
+
+Logistic Regression and the Stacking Ensemble achieved nearly identical ROC-AUC and PR-AUC scores, while Random Forest performed slightly worse. The small difference between Logistic Regression and the Stacking Ensemble was much smaller than the observed fold-to-fold variability, suggesting that the ensemble did not provide a meaningful performance advantage.
+
+<img src="plots/framingham_plots/cv_pr_auc_by_model.png" width="600">
+
+Because of this, Logistic Regression was selected as the final model. It offered the best balance of predictive performance, simplicity, interpretability, and deployment stability.
+
+Suggested figure:
+
+- ``
+
+
 
 #### Understanding Model Behaviour
