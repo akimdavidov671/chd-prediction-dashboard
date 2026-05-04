@@ -1,0 +1,191 @@
+{
+    "algorithm": "LogisticRegression",
+    "intended_use": "Reduced-feature current heart disease diagnostic-support model for cases where the full clinical feature set is unavailable.",
+    "not_for": [
+        "10-year CHD risk estimation",
+        "standalone clinical diagnosis",
+        "emergency decision-making"
+    ],
+    "training_dataset": "Cleveland",
+    "external_validation_datasets": [
+        "Hungarian",
+        "Switzerland",
+        "VA"
+    ],
+    "validation_strategy": {
+        "summary": "Hyperparameter tuning by 5-fold stratified cross-validation on the Cleveland training split, final refit on the full Cleveland dataset, and external evaluation on Hungarian, Switzerland, and VA.",
+        "threshold_selection_dataset": "Cleveland hold-out",
+        "threshold_selection_policy": "Maximize balanced accuracy.",
+        "primary_tuning_metric": "ROC-AUC",
+        "best_cv_roc_auc": 0.8625057712014232
+    },
+    "features": {
+        "all": [
+            "age",
+            "sex",
+            "cp",
+            "trestbps",
+            "chol",
+            "restecg",
+            "thalach",
+            "exang",
+            "oldpeak"
+        ],
+        "numerical": [
+            "age",
+            "trestbps",
+            "chol",
+            "thalach",
+            "oldpeak"
+        ],
+        "categorical": [
+            "sex",
+            "cp",
+            "restecg",
+            "exang"
+        ]
+    },
+    "target": {
+        "name": "num",
+        "definition": "target = 1 if num > 0 else 0",
+        "positive_class": 1
+    },
+    "selected_hyperparameters": {
+        "C": 1,
+        "class_weight": "balanced",
+        "solver": "liblinear",
+        "max_iter": 1000
+    },
+    "thresholding": {
+        "selected_threshold": 0.47,
+        "threshold_policy": "Selected on Cleveland hold-out by maximizing balanced accuracy.",
+        "threshold_selection_set": "Cleveland hold-out",
+        "holdout_metrics_at_selected_threshold": {
+            "roc_auc": 0.9556277056277056,
+            "pr_auc": 0.933725650481808,
+            "accuracy": 0.9180327868852459,
+            "balanced_accuracy": 0.9215367965367965,
+            "precision": 0.8709677419354839,
+            "recall_sensitivity": 0.9642857142857143,
+            "specificity": 0.8787878787878788,
+            "f1_score": 0.9152542372881356,
+            "brier_score": 0.0940967085204027,
+            "tn": 29,
+            "fp": 4,
+            "fn": 1,
+            "tp": 27
+        }
+    },
+    "performance": {
+        "external_validation_summary": {
+            "mean_roc_auc": 0.8278,
+            "mean_pr_auc": 0.906575,
+            "mean_accuracy": 0.73815,
+            "mean_balanced_accuracy": 0.7339500000000001,
+            "mean_precision": 0.8504749999999999,
+            "mean_recall_sensitivity": 0.7383249999999999,
+            "mean_specificity": 0.72955,
+            "mean_f1": 0.7791,
+            "mean_brier_score": 0.1815
+        },
+        "fallback_comparison_summary": {
+            "comparison": "Model 2 reduced-feature fallback compared with Model 1 full model when richer features are unavailable and imputed.",
+            "mean_roc_auc_model1_imputed": 0.8076749999999999,
+            "mean_roc_auc_model2a": 0.813425,
+            "mean_brier_model1_imputed": 0.34787500000000005,
+            "mean_brier_model2a": 0.190425,
+            "mean_balanced_accuracy_model1_imputed": 0.6059749999999999,
+            "mean_balanced_accuracy_model2a": 0.7115
+        },
+        "external_validation_records": [
+            {
+                "dataset": "Cleveland (hold-out)",
+                "n": 61,
+                "positive_rate": 0.459,
+                "roc_auc": 0.9567,
+                "pr_auc": 0.9377,
+                "accuracy": 0.9016,
+                "balanced_accuracy": 0.901,
+                "precision": 0.8929,
+                "recall_sensitivity": 0.8929,
+                "specificity": 0.9091,
+                "f1_score": 0.8929,
+                "brier_score": 0.0935,
+                "tn": 30,
+                "fp": 3,
+                "fn": 3,
+                "tp": 25
+            },
+            {
+                "dataset": "Hungarian",
+                "n": 294,
+                "positive_rate": 0.3605,
+                "roc_auc": 0.8773,
+                "pr_auc": 0.8379,
+                "accuracy": 0.8163,
+                "balanced_accuracy": 0.8091,
+                "precision": 0.7281,
+                "recall_sensitivity": 0.783,
+                "specificity": 0.8351,
+                "f1_score": 0.7545,
+                "brier_score": 0.1326,
+                "tn": 157,
+                "fp": 31,
+                "fn": 23,
+                "tp": 83
+            },
+            {
+                "dataset": "Switzerland",
+                "n": 123,
+                "positive_rate": 0.935,
+                "roc_auc": 0.7533,
+                "pr_auc": 0.9786,
+                "accuracy": 0.5447,
+                "balanced_accuracy": 0.5821,
+                "precision": 0.9538,
+                "recall_sensitivity": 0.5391,
+                "specificity": 0.625,
+                "f1_score": 0.6889,
+                "brier_score": 0.3026,
+                "tn": 5,
+                "fp": 3,
+                "fn": 53,
+                "tp": 62
+            },
+            {
+                "dataset": "VA",
+                "n": 200,
+                "positive_rate": 0.745,
+                "roc_auc": 0.7239,
+                "pr_auc": 0.8721,
+                "accuracy": 0.69,
+                "balanced_accuracy": 0.6436,
+                "precision": 0.8271,
+                "recall_sensitivity": 0.7383,
+                "specificity": 0.549,
+                "f1_score": 0.7801,
+                "brier_score": 0.1973,
+                "tn": 28,
+                "fp": 23,
+                "fn": 39,
+                "tp": 110
+            }
+        ]
+    },
+    "limitations": [
+        "This model was trained only on the Cleveland dataset.",
+        "Threshold selection was performed on a Cleveland hold-out set.",
+        "External performance should be interpreted separately for Hungarian, Switzerland, and VA.",
+        "This model removes richer clinical variables but still requires several clinical and exercise-test inputs.",
+        "The predicted score should not be interpreted as a calibrated real-world diagnostic probability without further validation."
+    ],
+    "model_id": "model2_reduced_clinical_v1",
+    "model_display_name": "Model 2 - Reduced Clinical Logistic Regression",
+    "model_family": "current_heart_disease_screening",
+    "model_role": "reduced-feature current heart disease diagnostic-support model",
+    "artifact_file": "model2_reduced_clinical_v1.joblib",
+    "schema_file": "model2_reduced_clinical_v1.schema.json",
+    "metadata_file": "model2_reduced_clinical_v1.metadata.json",
+    "artifact_version": "1.0.0",
+    "created_at": "2026-04-30T22:50:50.893293+00:00"
+}
