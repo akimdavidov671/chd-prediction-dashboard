@@ -52,3 +52,5 @@ The final model was also evaluated beyond aggregate metrics. Coefficient analysi
 Risk stratification analysis showed that observed CHD event rates generally increased across higher predicted-risk groups. This suggests that the model is useful for **relative risk ranking**. However, predicted probabilities were systematically higher than observed event rates, so the model is better suited for identifying higher-risk patients than for producing precisely calibrated absolute risk estimates.
 
 <img src="plots/framingham_plots/understanding_risk_stratification.png" width="700">
+
+For the full analysis, including detailed EDA plots, calibration curves, threshold analysis, and decision curve analysis, see `notebooks/framingham.ipynb`.
