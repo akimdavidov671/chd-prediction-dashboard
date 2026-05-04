@@ -89,7 +89,7 @@ The notebook develops and evaluates each tier of the UCI screening strategy sepa
 
 **Model 1 — Full Clinical Model** uses the complete 13-feature Cleveland dataset and serves as the highest-information model. A Logistic Regression model performed very strongly on the Cleveland holdout set, with ROC-AUC around **0.96**, PR-AUC around **0.94**, balanced accuracy around **0.90**, and balanced sensitivity/specificity. This confirmed that the full clinical feature set contains strong predictive signal when all required variables are available.
 
-<img src="plots/uci_plots/model1_logistic_regression_roc.png" width="300">
+<img src="plots/uci_plots/model1_logistic_regression_roc.png" width="400">
 
 However, Model 1 is limited by feature availability. Several of its strongest fields, especially `ca`, `thal`, and `slope`, are largely missing outside the Cleveland cohort. As a result, strong within-Cleveland performance does not automatically translate into practical usability across the other UCI cohorts.
 
@@ -97,13 +97,13 @@ However, Model 1 is limited by feature availability. Several of its strongest fi
 
 Model 2 was not a single reduced model: the notebook compared Model 2A, a Cleveland-trained reduced model with external validation, against Model 2B, a pooled multi-cohort reduced model evaluated with GroupKFold. Model 2A was ultimately preferred because Model 2B did not provide a clear generalization advantage.
 
-<img src="plots/uci_plots/model2_threshold_tuning.png" width="400">
+<img src="plots/uci_plots/model2_threshold_tuning.png" width="600">
 
 This model showed that much of the predictive signal can be preserved without the full 13-feature set. At the same time, external evaluation still showed performance degradation under stronger dataset shift, especially on the Switzerland and VA cohorts. This reinforced the need for an even more portable screening model.
 
 **Model 3 — Minimal Screening Model** uses a small feature set designed for broader availability and lightweight screening. Its features are less rich than Model 1 or Model 2, but they are more realistic for limited-input settings. Cross-dataset holdout evaluation between Cleveland and Hungarian showed stable discrimination, with mean ROC-AUC around **0.85** and mean balanced accuracy around **0.77**. External testing remained useful on Switzerland and VA, though performance dropped under stronger cohort shift.
 
-<img src="plots/uci_plots/model3_internal_baseline_performance.png" width="600">
+<img src="plots/uci_plots/model3_internal_baseline_performance.png" width="500">
 
 Because Model 3 is intended for screening, threshold tuning prioritized sensitivity over specificity. A threshold of approximately **0.37** was selected from out-of-fold training predictions to target sensitivity of at least **0.85**. This made the model more conservative: it captured more positive cases, but at the cost of additional false positives, especially on the VA cohort.
 
