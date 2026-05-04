@@ -57,32 +57,38 @@ For the full analysis, including detailed EDA plots, calibration curves, thresho
 
 ### UCI Notebook - Current Heart Disease Screening
 
-The `uci-heart-disease.ipynb` notebook develops the current heart disease screening component of the project. It uses four UCI cohorts - Cleveland, Hungarian, Switzerland, and VA - and converts the original disease-severity target into a binary heart-disease-present label.
+The `uci-heart-disease.ipynb` notebook develops the current heart disease screening component of the project. Unlike the Framingham notebook, this task is not long-term risk prediction: it estimates whether heart disease is currently present using the UCI heart disease cohorts.
 
-The main challenge is that these cohorts are not directly interchangeable. They differ substantially in target distribution, feature availability, missingness, and feature distributions. Cleveland is relatively complete and balanced, while Switzerland and VA are much more disease-positive and have substantial missingness in important clinical variables. In particular, features such as `ca`, `thal`, and `slope` are informative but largely unavailable outside Cleveland.
+The main challenge is **heterogeneous data availability**. The four cohorts - Cleveland, Hungarian, Switzerland, and VA - differ in class balance, missingness, and feature distributions. Cleveland is relatively complete, while several clinically useful fields such as `ca`, `thal`, and `slope` are largely unavailable outside it.
+
+<img src="plots/uci_plots/eda_target_distribution_across_datasets.png" width="500">
 
 <img src="plots/uci_plots/eda_feature_availability.png" width="700">
 
-Because of this, the notebook uses a **tiered modeling strategy** rather than a single fixed model:
+Because of this, the notebook builds three models with different practical roles:
 
-| Model | Feature set | Role |
-|---|---|---|
-| **Model 1 - Full Clinical Model** | 13-feature Cleveland-style clinical feature set | Highest-information model when complete diagnostic inputs are available |
-| **Model 2 - Reduced Clinical Model** | Reduced feature set excluding poorly available advanced fields such as `ca`, `thal`, and `slope` | Fallback model when full clinical inputs are unavailable |
-| **Model 3 - Minimal Screening Model** | Small common feature set using broadly available variables | Lightweight screening model for limited-input scenarios |
+| Model | Inputs | Main property | Intended use |
+|---|---|---|---|
+| **Model 1 — Full Clinical** | 13 clinical features | Highest performance, lowest portability | Use when complete diagnostic inputs are available |
+| **Model 2 — Reduced Clinical** | 9 clinical features | Strong fallback with fewer advanced fields | Use when `ca`, `thal`, or `slope` are unavailable |
+| **Model 3 — Minimal Screening** | 6 common features | Highest portability, sensitivity-focused | Use when only basic screening inputs are available |
 
-Model 1 achieved the strongest within-Cleveland performance, with ROC-AUC around **0.96** and PR-AUC around **0.94**, confirming that the full clinical feature set contains strong predictive signal. However, its required inputs are often missing in external cohorts, making it unsuitable as a universal model.
+**Model 1** is the strongest model when the full Cleveland-style feature set is available, reaching ROC-AUC around **0.96** and PR-AUC around **0.94** on the Cleveland holdout set. Its weakness is practical coverage: the features that make it strong are often missing in the external cohorts.
 
-We developed Model 2 as a reduced-feature fallback. The notebook compared **Model 2A**, a Cleveland-trained reduced model with external validation, against **Model 2B**, a pooled multi-cohort reduced model evaluated with GroupKFold. Model 2A was selected because the pooled version did not provide a clear generalization advantage. This reduced model also performed better than forcing incomplete records through Model 1 with imputed advanced fields, especially in balanced accuracy, F1 score, and Brier score.
+**Model 2A** is the selected reduced clinical fallback. It preserves much of the predictive signal while removing poorly available advanced variables. The notebook also tests a pooled multi-cohort reduced model, but it does not provide a clear advantage over Model 2A.
 
-Model 3 was designed as the most portable screening model. It uses a minimal feature set, sacrifices some specificity, and tunes the decision threshold toward sensitivity. Cross-dataset evaluation showed that it preserved useful discrimination under dataset shift, with ROC-AUC around **0.85** between Cleveland and Hungarian and useful but weaker external performance on Switzerland and VA.
-
-The practical result is an adaptive inference strategy: use **Model 1** when complete diagnostic inputs are available, use **Model 2A** when richer clinical fields are partially missing, and use **Model 3** when only minimal screening inputs are available. This improves real-world usability because the simpler models can score many more external records than the full model.
+**Model 3** is the most deployable screening model. It uses only broadly available inputs and tunes its threshold toward sensitivity, making it more conservative: it captures more possible disease-positive cases at the cost of additional false positives.
 
 <img src="plots/uci_plots/model3_data_burden.png" width="700">
 
-Model interpretation showed clinically plausible behavior across the tiers. The full model relies heavily on diagnostic and stress-test-related variables, while the reduced and minimal models shift toward more accessible signals such as chest pain type, exercise-induced angina, sex, age, resting blood pressure, and maximum heart rate. For Model 3, most predictive signal comes from symptom-related variables, especially chest pain type.
+The fallback analysis shows why this tiered design matters. Using the full model with heavily imputed missing fields is not a reliable default strategy. Dedicated reduced and minimal models can score many more patients and often produce better practical decision behavior under missingness.
 
-Overall, the UCI notebook demonstrates that the main challenge is not only maximizing performance, but designing a screening system that remains usable when clinical inputs are incomplete. The resulting models should be interpreted as screening and triage-support tools, not as diagnostic systems or calibrated medical probabilities.
+<img src="plots/uci_plots/model3_external_comparison_fallback_strategy.png" width="800">
 
-For the full analysis, including EDA, model-specific validation, threshold tuning, fallback comparisons, and feature-importance interpretation, see `notebooks/uci-heart-disease.ipynb`.
+Model interpretation is also consistent with the intended roles. The full model relies on diagnostic and stress-test variables, while the reduced and minimal models shift toward more accessible signals such as chest pain type, exercise-induced angina, sex, age, resting blood pressure, and maximum heart rate.
+
+<img src="plots/uci_plots/model3_global_feature_importance.png" width="650">
+
+Overall, the UCI notebook demonstrates an adaptive screening strategy: use the richest model supported by the available inputs, and fall back to simpler models when data is incomplete. The models are intended for screening and triage support, not diagnosis or calibrated clinical probability estimation.
+
+For the full analysis, including EDA, model validation, threshold tuning, fallback comparisons, and interpretation, see `notebooks/uci-heart-disease.ipynb`.
