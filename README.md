@@ -54,3 +54,11 @@ Risk stratification analysis showed that observed CHD event rates generally incr
 <img src="plots/framingham_plots/understanding_risk_stratification.png" width="700">
 
 For the full analysis, including detailed EDA plots, calibration curves, threshold analysis, and decision curve analysis, see `notebooks/framingham.ipynb`.
+
+### UCI Notebook — Current Heart Disease Screening
+
+#### Dataset Shift and Feature Availability
+#### Tiered Modeling Strategy
+#### Model Development and Selection
+#### Fallback Strategy and Practical Use
+#### Model Behaviour and Limitations
