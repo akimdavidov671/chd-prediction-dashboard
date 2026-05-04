@@ -91,5 +91,8 @@ Logistic Regression and the Stacking Ensemble achieved nearly identical ROC-AUC 
 
 Because of this, Logistic Regression was selected as the final model. It offered the best balance of predictive performance, simplicity, interpretability, and deployment stability.
 
+<img src="plots/framingham_plots/final_model_confusion_matrix.png" width="400">
 
 #### Understanding Model Behaviour
+
+
