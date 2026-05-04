@@ -87,14 +87,9 @@ After the initial experiments, the strongest candidate models were evaluated usi
 
 Logistic Regression and the Stacking Ensemble achieved nearly identical ROC-AUC and PR-AUC scores, while Random Forest performed slightly worse. The small difference between Logistic Regression and the Stacking Ensemble was much smaller than the observed fold-to-fold variability, suggesting that the ensemble did not provide a meaningful performance advantage.
 
-<img src="plots/framingham_plots/cv_pr_auc_by_model.png" width="600">
+<img src="plots/framingham_plots/experimentation_cv_pr-auc_by_model.png" width="600">
 
 Because of this, Logistic Regression was selected as the final model. It offered the best balance of predictive performance, simplicity, interpretability, and deployment stability.
-
-Suggested figure:
-
-- ``
-
 
 
 #### Understanding Model Behaviour
