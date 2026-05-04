@@ -109,4 +109,4 @@ The notebook also evaluates whether the model separates patients into meaningful
 
 Finally, decision curve analysis is used to evaluate whether the model’s predictions provide practical value across different decision thresholds. The model shows positive net benefit compared with a “treat none” baseline across a broad range of thresholds, especially in the mid-threshold region. This supports its use as a screening-oriented risk stratification tool within the scope of this project.
 
-<img src="plots/framingham_plots/understanding_decision_curve.png" width="700">
+<img src="plots/framingham_plots/understanding_decision_curve.png" width="600">
