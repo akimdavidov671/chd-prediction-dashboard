@@ -1,6 +1,6 @@
 # chd-prediction-dashboard
 
-![CHD Prediction Dashboard demo](plots/demo2.gif)
+![CHD Prediction Dashboard demo](plots/demo.gif)
 
 ## Project Overview
 
