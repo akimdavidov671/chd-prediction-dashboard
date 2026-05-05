@@ -1,5 +1,7 @@
 # chd-prediction-dashboard
 
+![CHD Prediction Dashboard demo](plots/demo2.gif)
+
 ## Project Overview
 
 This repository contains an end-to-end machine learning system for coronary heart disease screening and risk prediction. The project combines two related but distinct prediction tasks:
@@ -20,7 +22,6 @@ This project uses two public clinical datasets:
   Data source: https://archive.ics.uci.edu/dataset/45/heart+disease
 
 The datasets are not redistributed in this repository. To reproduce the notebook workflows, download the datasets from the original sources and place them in the expected local data directory.
-
 
 ## How to Run Locally
 
