@@ -190,7 +190,7 @@ export function CurrentScreeningPage() {
           />
 
           <NumberInput
-            label="Resting blood pressure"
+            label="Systolic blood pressure"
             value={form.trestbps}
             min={70}
             max={250}
@@ -266,7 +266,7 @@ export function CurrentScreeningPage() {
           />
 
           <SelectInput
-            label="Slope of peak exercise ST segment"
+            label="Slope of peak exercise ST segment (exercise ECG)"
             value={form.slope ?? null}
             options={slopeOptions}
             helperText="Optional."
@@ -274,7 +274,7 @@ export function CurrentScreeningPage() {
           />
 
           <SelectInput
-            label="Number of major vessels"
+            label="Number of major heart vessels with abnormality, in coronagraphy/scopy"
             value={form.ca ?? null}
             options={majorVesselsOptions}
             helperText="Optional."

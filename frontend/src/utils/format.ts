@@ -19,13 +19,13 @@ export function humanizeFieldName(fieldName: string): string {
     prevalentHyp: "Prevalent hypertension",
     heartRate: "Resting heart rate",
     thalach: "Maximum heart rate achieved",
-    trestbps: "Resting blood pressure",
+    trestbps: "Systolic blood pressure",
     oldpeak: "ST depression",
     restecg: "Resting ECG",
     exang: "Exercise-induced angina",
     fbs: "Fasting blood sugar",
     cp: "Chest pain type",
-    ca: "Major vessels",
+    ca: "Number of major heart vessels with abnormality, in coronagraphy/scopy",
     thal: "Thalassemia",
   };
 

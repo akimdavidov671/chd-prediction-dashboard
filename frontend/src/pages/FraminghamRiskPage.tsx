@@ -131,14 +131,6 @@ export function FraminghamRiskPage() {
             }}
           />
 
-          <RadioGroup
-            label="Biological sex"
-            value={form.male}
-            options={sexOptions}
-            required
-            onChange={(value) => updateField("male", value)}
-          />
-
           <SelectInput
             label="Education level"
             value={form.education}
@@ -153,6 +145,14 @@ export function FraminghamRiskPage() {
             options={yesNoOptions}
             required
             onChange={(value) => updateField("currentSmoker", value)}
+          />
+
+          <RadioGroup
+            label="Biological sex"
+            value={form.male}
+            options={sexOptions}
+            required
+            onChange={(value) => updateField("male", value)}
           />
 
           <NumberInput
@@ -211,19 +211,6 @@ export function FraminghamRiskPage() {
           description="Continuous measurements. Values are validated again by the FastAPI backend."
         >
           <NumberInput
-            label="Total cholesterol"
-            value={form.totChol}
-            min={80}
-            max={700}
-            step={1}
-            required
-            helperText="Allowed API range: 80 to 700."
-            onChange={(value) => {
-              if (value !== "") updateField("totChol", value);
-            }}
-          />
-
-          <NumberInput
             label="Systolic blood pressure"
             value={form.sysBP}
             min={70}
@@ -233,6 +220,19 @@ export function FraminghamRiskPage() {
             helperText="Allowed API range: 70 to 300."
             onChange={(value) => {
               if (value !== "") updateField("sysBP", value);
+            }}
+          />
+
+          <NumberInput
+            label="Total cholesterol"
+            value={form.totChol}
+            min={80}
+            max={700}
+            step={1}
+            required
+            helperText="Allowed API range: 80 to 700."
+            onChange={(value) => {
+              if (value !== "") updateField("totChol", value);
             }}
           />
 

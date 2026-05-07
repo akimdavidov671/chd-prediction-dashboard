@@ -30,9 +30,9 @@ export const restingEcgOptions = [
 
 export const slopeOptions = [
   { label: "Not provided", value: null },
-  { label: "Upsloping", value: 1 },
-  { label: "Flat", value: 2 },
-  { label: "Downsloping", value: 3 },
+  { label: "Upsloping ST segment", value: 1 },
+  { label: "Flat ST segment", value: 2 },
+  { label: "Downsloping ST segment", value: 3 },
 ] as const;
 
 export const majorVesselsOptions = [
