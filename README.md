@@ -156,7 +156,7 @@ Because of this, the notebook builds three models with different practical roles
 
 **Model 3** is the most deployable screening model. It uses only broadly available inputs and tunes its threshold toward sensitivity, making it more conservative: it captures more possible disease-positive cases at the cost of additional false positives.
 
-<img src="plots/uci_plots/model3_data_burden.png" width="700">
+<img src="plots/uci_plots/model3_data_burden.png" width="800">
 
 The fallback analysis shows why this tiered design matters. Using the full model with heavily imputed missing fields is not a reliable default strategy. Dedicated reduced and minimal models can score many more patients and often produce better practical decision behavior under missingness.
 
