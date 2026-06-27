@@ -16,7 +16,7 @@ The modeling work is developed in Jupyter notebooks, exported as reusable machin
 This project uses two public clinical datasets:
 
 - **Framingham Cohort Study** - used for 10-year coronary heart disease risk prediction.  
-  Data source: https://biolincc.nhlbi.nih.gov/studies/framcohort/
+  Data source: https://www.kaggle.com/datasets/navink25/framingham/data
 
 - **UCI Heart Disease Dataset** - used for current heart disease screening and classification.  
   Data source: https://archive.ics.uci.edu/dataset/45/heart+disease
